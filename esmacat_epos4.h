@@ -17,8 +17,8 @@ private:
     // TxPDO from driver
     uint16_t input_statusword;
     int32_t input_encoder_counter;
-    int32_t input_encoder_filt_speed;
-    int16_t input_motor_filt_torque;
+    int32_t input_encoder_velocity;
+    int16_t input_motor_torque;
     int8_t input_mode_operation;
 
     // RxPDO to driver

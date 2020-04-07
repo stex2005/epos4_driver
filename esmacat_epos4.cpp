@@ -40,12 +40,12 @@ int32_t esmacat_epos4::get_encoder_counter()
 
 int32_t esmacat_epos4::get_encoder_filt_speed()
 {
-    return input_encoder_filt_speed;
+    return input_encoder_velocity;
 }
 
 int16_t esmacat_epos4::get_motor_filt_torque()
 {
-    return input_motor_filt_torque;
+    return input_motor_torque;
 }
 
 double esmacat_epos4::get_position()
@@ -119,26 +119,30 @@ void esmacat_epos4::ecat_data_process(uint8_t* ec_slave_outputs,int oloop,uint8_
     input_encoder_counter = +(input_variable[2] << 0)+(input_variable[3] << 8)+(input_variable[4] << 16)+(input_variable[5] << 24);
 
     // Velocity actual value
-    // Index: 0x30D3-01
+    // Index: 0x606C-00
     // Type: INTEGER32
     input_variable[6] = *(ec_slave_inputs+6);
     input_variable[7] = *(ec_slave_inputs+7);
     input_variable[8] = *(ec_slave_inputs+8);
     input_variable[9] = *(ec_slave_inputs+9);
-    input_encoder_filt_speed = +(input_variable[6] << 0)+(input_variable[7] << 8)+(input_variable[8] << 16)+(input_variable[9] << 24);
+    input_encoder_velocity = +(input_variable[6] << 0)+(input_variable[7] << 8)+(input_variable[8] << 16)+(input_variable[9] << 24);
 
     // Torque actual value (MotorRatedTorque/1000)
-    // Index: 0x30D2-01
+    // Index: 0x6077-00
     // Type: INTEGER16
     input_variable[10] = *(ec_slave_inputs+10);
     input_variable[11] = *(ec_slave_inputs+11);
-    input_motor_filt_torque = +(input_variable[10] << 0)+(input_variable[11] << 8);
+    input_motor_torque = +(input_variable[10] << 0)+(input_variable[11] << 8);
 
     // Mode of Operation
+    // Index: 0x6061-00
+    // Type: INTEGER8
     input_variable[12] = *(ec_slave_inputs+12);
     input_mode_operation = +(input_variable[12] << 0);
 
     // Digital Inputs
+    // Index: 0x60FD-00
+    // Type: UNSIGNED32
     input_variable[13] = *(ec_slave_inputs+13);
     input_variable[14] = *(ec_slave_inputs+14);
     input_variable[15] = *(ec_slave_inputs+15);
@@ -147,21 +151,26 @@ void esmacat_epos4::ecat_data_process(uint8_t* ec_slave_outputs,int oloop,uint8_
     /* RxPDO CST */
 
     // Set Controlword
+    // Index: 0x6040-00
     *(ec_slave_outputs+0)  = (output_controlword & 0x000000ff) >> 0;
     *(ec_slave_outputs+1)  = (output_controlword & 0x0000ff00) >> 8;
 
     // Set Target torque
+    // Index: 0x6071-00
     *(ec_slave_outputs+2) = (output_motor_target_torque & 0x000000ff) >> 0;
     *(ec_slave_outputs+3) = (output_motor_target_torque & 0x0000ff00) >> 8;
 
     // Set Offset torque
+    // Index: 0x60B2-00
     *(ec_slave_outputs+4) = (output_motor_offset_torque & 0x000000ff) >> 0;
     *(ec_slave_outputs+5) = (output_motor_offset_torque & 0x0000ff00) >> 8;
 
     // Set Mode of Operation
+    // Index: 0x6060-00
     *(ec_slave_outputs+6) = (output_mode_operation & 0x000000ff) >> 0;
 
     // Set Digital Outputs
+    // Index: 0x60FE-01
     *(ec_slave_outputs+7) = 0;
     *(ec_slave_outputs+8) = 0;
     *(ec_slave_outputs+9) = 0;
