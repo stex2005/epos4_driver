@@ -1,6 +1,6 @@
-# EPOS4 Driver
+# EPOS4 Driver (Modified CST PDO)
 
-## EtherCAT module CST mapping – Default values for TxPDO
+## EtherCAT module CST mapping – Modified values for TxPDO
 
 ```diff
 1st 0x6041-00 Statusword
@@ -20,7 +20,7 @@
 + 8th 0x603F-00 Error code
 ```
 
-## EtherCAT module CST mapping – Default values for RxPDO
+## EtherCAT module CST mapping – Modified values for RxPDO
 
 ```diff
 
