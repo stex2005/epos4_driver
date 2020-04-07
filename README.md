@@ -28,7 +28,7 @@
 5th 0x6061-00 Modes of operation display
 
 6th 0x60FD-00 Digital inputs
-```v
+```
 
 Author: stefano.dallagasperina@polimi.it
 
