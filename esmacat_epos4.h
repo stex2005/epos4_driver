@@ -13,6 +13,8 @@ class esmacat_epos4: public esmacat_slave
 private:
 
   bool epos_enable;
+  double elapsed_time;
+  double old_elapsed_time;
 
   // PDO mapping according to CST mode
   // TxPDO from driver
@@ -68,6 +70,8 @@ public:
   esmacat_err reset_fault();
   esmacat_err stop_motor();
   esmacat_err start_motor();
+  esmacat_err set_elapsed_time(double elapsed_time_ms);
+  double      get_elapsed_time();
 
 }; 
 

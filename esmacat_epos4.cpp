@@ -18,6 +18,8 @@ esmacat_epos4::esmacat_epos4(){
   input_encoder_counter = 0;
   output_mode_operation = 0;
   epos_enable = false;
+  elapsed_time = 0;
+  old_elapsed_time = 0;
 
   esmacat_app_one_cycle_time_sec = (float) ESMACAT_TIME_PERIOD_US/1000; // need to be updated
   std::cout << "Control Period: " << esmacat_app_one_cycle_time_sec << " ms" << std::endl;
@@ -125,6 +127,16 @@ esmacat_err esmacat_epos4::start_motor(){
   set_controlword(15);
   return NO_ERR;
 
+}
+
+esmacat_err esmacat_epos4::set_elapsed_time(double elapsed_time_ms){
+  elapsed_time = elapsed_time_ms-old_elapsed_time-esmacat_app_one_cycle_time_sec;
+  old_elapsed_time = elapsed_time_ms;
+  return NO_ERR;
+}
+
+double esmacat_epos4::get_elapsed_time(){
+  return elapsed_time;
 }
 
 void esmacat_epos4::ecat_data_process(uint8_t* ec_slave_outputs,int oloop,uint8_t* ec_slave_inputs,int iloop){
