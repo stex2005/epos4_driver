@@ -2,7 +2,7 @@
 /*****************************************************************************************
  * INCLUDES
  ****************************************************************************************/
-#include "esmacat_epos4.h"
+#include "esmacat_epos4_mod.h"
 #include "master.h"
 #include <string>
 #include <sstream>
@@ -21,7 +21,7 @@ esmacat_epos4::esmacat_epos4(){
   elapsed_time = 0;
   old_elapsed_time = 0;
 
-  esmacat_app_one_cycle_time_sec = (float) ESMACAT_TIME_PERIOD_US/1000; // need to be updated
+  esmacat_app_one_cycle_time_sec = (float) 1000000L/1000000L; // need to be updated
   std::cout << "Control Period: " << esmacat_app_one_cycle_time_sec << " ms" << std::endl;
 
 }
