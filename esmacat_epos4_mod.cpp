@@ -21,8 +21,8 @@ esmacat_epos4::esmacat_epos4(){
   elapsed_time = 0;
   old_elapsed_time = 0;
 
-  esmacat_app_one_cycle_time_sec = (float) 1000000L/1000000L; // need to be updated
-  std::cout << "Control Period: " << esmacat_app_one_cycle_time_sec << " ms" << std::endl;
+  esmacat_app_one_cycle_time_sec = (float) 1000000L/1000000000L; // need to be updated
+  std::cout << "Control Period: " << esmacat_app_one_cycle_time_sec << " s" << std::endl;
 
 }
 
