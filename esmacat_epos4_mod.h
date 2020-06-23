@@ -13,7 +13,6 @@ class esmacat_epos4: public esmacat_slave
 private:
 
   bool epos_enable;
-  double elapsed_time;
   double old_elapsed_time;
 
   // PDO mapping according to CST mode
@@ -46,6 +45,8 @@ public:
 	uint32_t get_esmacat_product_id(){return esmacat_slave_product_id;}
 	uint32_t get_esmacat_vendor_id(){return esmacat_slave_vendor_id;}
 	void ecat_data_process(uint8_t* ec_slave_outputs,int oloop,uint8_t* ec_slave_inputs,int iloop);
+
+    double elapsed_time;
 
   // TxPDO from driver
   int  get_statusword();
