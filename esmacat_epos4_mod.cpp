@@ -36,6 +36,14 @@ int esmacat_epos4::get_statusword()
   return input_statusword;
 }
 
+bool esmacat_epos4::get_statusword_bit(int bit){
+    input_statusword_bits = std::bitset<16>(input_statusword);
+    if (input_statusword_bits[15]) std::cout << "Home Reached" << std::endl;
+    //std::cout << input_statusword_bits << endl;
+    return false;
+}
+
+
 int32_t esmacat_epos4::get_encoder_counter()
 {
   return input_encoder_counter;
@@ -88,6 +96,13 @@ esmacat_err esmacat_epos4::get_errorcode_hex()
 
 esmacat_err esmacat_epos4::set_controlword(uint16_t controlword){
   output_controlword = controlword;
+  return NO_ERR;
+}
+
+esmacat_err esmacat_epos4::set_controlword_bit(int bit, bool set){
+  output_controlword_bits = std::bitset<16>(output_controlword);
+  output_controlword_bits.set(bit,set);
+  output_controlword = output_controlword_bits.to_ulong();
   return NO_ERR;
 }
 
@@ -205,7 +220,7 @@ void esmacat_epos4::ecat_data_process(uint8_t* ec_slave_outputs,int oloop,uint8_
 
   // RxPDO CST
 
-  output_variable[7] = 0;
+    output_variable[7] = 0;
 	output_variable[8] = 0;
 	output_variable[9] = 0;
 	output_variable[10] = 0;

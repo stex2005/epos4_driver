@@ -7,6 +7,7 @@
 #include "slave.h"
 #include <iostream>
 #include <math.h>
+#include <bits/stdc++.h>
 
 class esmacat_epos4: public esmacat_slave
 {
@@ -17,7 +18,7 @@ private:
 
   // PDO mapping according to CST mode
   // TxPDO from driver
-  int	input_statusword;
+  std::bitset<16> input_statusword_bits;
   int32_t input_encoder_counter;
   int32_t input_encoder_filt_speed;
   int16_t input_motor_filt_torque;
@@ -27,6 +28,7 @@ private:
 
   // RxPDO to driver
   uint16_t output_controlword;
+  std::bitset<16> output_controlword_bits;
   int16_t output_motor_target_torque;
   int16_t output_motor_offset_torque;
   int8_t output_mode_operation;
@@ -36,6 +38,9 @@ protected:
   float esmacat_app_one_cycle_time_sec;
 
 public:
+
+  int	input_statusword;
+
   /** Contains a product code of the EPOS4 slave */
   uint32_t esmacat_slave_product_id = ESMACAT_EPOS4_PRODUCT_ID;
   /** Contains a vendor ID assigned by the EtherCAT Technology Group*/
@@ -50,6 +55,7 @@ public:
 
   // TxPDO from driver
   int  get_statusword();
+  bool get_statusword_bit(int bit);
   int  get_errorcode();
   esmacat_err get_errorcode_hex();
 
@@ -61,6 +67,7 @@ public:
 
   // RxPDO to driver
   esmacat_err set_controlword(uint16_t controlword);
+  esmacat_err set_controlword_bit(int bit, bool set);
   esmacat_err set_target_torque(int16_t target_torque);
   esmacat_err set_offset_torque(int16_t offset_torque);
   esmacat_err set_mode_operation(int8_t mode_operation);
