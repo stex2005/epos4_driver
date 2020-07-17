@@ -75,19 +75,7 @@ int16_t esmacat_epos4::get_analog_input_mV()
   return input_analog;
 }
 
-esmacat_err esmacat_epos4::get_errorcode_hex()
-{
-  esmacat_err e = NO_ERR;
-  if(input_errorcode != 0)
-  {
-  std::stringstream ss;
-  ss << std::hex << input_errorcode; // int decimal_value
-  std::string res ( ss.str() );
-  std::cout << "Error Code: 0x" << res <<std::endl;
-  }
-    return e
-            ;
-}
+
 
 
 /***************************

@@ -24,7 +24,6 @@ private:
   int16_t input_motor_filt_torque;
   int8_t input_mode_operation;
   int16_t input_analog;
-  int input_errorcode;
 
   // RxPDO to driver
   uint16_t output_controlword;
@@ -40,6 +39,8 @@ protected:
 public:
 
   int	input_statusword;
+  int input_errorcode;
+
 
   /** Contains a product code of the EPOS4 slave */
   uint32_t esmacat_slave_product_id = ESMACAT_EPOS4_PRODUCT_ID;
