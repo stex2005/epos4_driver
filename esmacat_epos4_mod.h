@@ -34,7 +34,7 @@ private:
   uint32_t output_current_limit;
 
 protected:
-  float esmacat_app_one_cycle_time_sec;
+  float esmacat_app_one_cycle_time_ms;
 
 public:
 

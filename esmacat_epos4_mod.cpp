@@ -21,8 +21,8 @@ esmacat_epos4::esmacat_epos4(){
   elapsed_time = 0;
   old_elapsed_time = 0;
 
-  esmacat_app_one_cycle_time_sec = (float) 1000000L/1000000L; // need to be updated
-  std::cout << "Control Period: " << esmacat_app_one_cycle_time_sec << " ms" << std::endl;
+  esmacat_app_one_cycle_time_ms = (float) 1000000L/1000000L; // need to be updated
+  std::cout << "Control Period: " << esmacat_app_one_cycle_time_ms << " ms" << std::endl;
 
 }
 
@@ -34,13 +34,17 @@ esmacat_epos4::esmacat_epos4(){
 int esmacat_epos4::get_statusword()
 {
   return input_statusword;
+
 }
 
 bool esmacat_epos4::get_statusword_bit(int bit){
     input_statusword_bits = std::bitset<16>(input_statusword);
-    if (input_statusword_bits[15]) std::cout << "Home Reached" << std::endl;
-    //std::cout << input_statusword_bits << endl;
-    return false;
+    if (input_statusword_bits[bit]) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 
@@ -133,7 +137,7 @@ esmacat_err esmacat_epos4::start_motor(){
 }
 
 esmacat_err esmacat_epos4::set_elapsed_time(double elapsed_time_ms){
-  elapsed_time = elapsed_time_ms-old_elapsed_time-esmacat_app_one_cycle_time_sec;
+  elapsed_time = elapsed_time_ms-old_elapsed_time-esmacat_app_one_cycle_time_ms;
   old_elapsed_time = elapsed_time_ms;
   return NO_ERR;
 }
