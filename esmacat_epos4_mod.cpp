@@ -20,9 +20,9 @@ esmacat_epos4::esmacat_epos4(){
   epos_enable = false;
   elapsed_time = 0;
   old_elapsed_time = 0;
-
-  esmacat_app_one_cycle_time_sec = (float) 1000000L/1000000000L; // need to be updated
-  std::cout << "Control Period: " << esmacat_app_one_cycle_time_sec << " s" << std::endl;
+ 
+  esmacat_app_one_cycle_time_ms = (float) 1000000L/1000000L; // need to be updated
+  std::cout << "Control Period: " << esmacat_app_one_cycle_time_ms << " ms" << std::endl;
 
 }
 
@@ -34,7 +34,19 @@ esmacat_epos4::esmacat_epos4(){
 int esmacat_epos4::get_statusword()
 {
   return input_statusword;
+
 }
+
+bool esmacat_epos4::get_statusword_bit(int bit){
+    input_statusword_bits = std::bitset<16>(input_statusword);
+    if (input_statusword_bits[bit]) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
 
 int32_t esmacat_epos4::get_encoder_counter()
 {
@@ -67,19 +79,7 @@ int16_t esmacat_epos4::get_analog_input_mV()
   return input_analog;
 }
 
-esmacat_err esmacat_epos4::get_errorcode_hex()
-{
-  esmacat_err e = NO_ERR;
-  if(input_errorcode != 0)
-  {
-  std::stringstream ss;
-  ss << std::hex << input_errorcode; // int decimal_value
-  std::string res ( ss.str() );
-  std::cout << "Error Code: 0x" << res <<std::endl;
-  }
-    return e
-            ;
-}
+
 
 
 /***************************
@@ -88,6 +88,13 @@ esmacat_err esmacat_epos4::get_errorcode_hex()
 
 esmacat_err esmacat_epos4::set_controlword(uint16_t controlword){
   output_controlword = controlword;
+  return NO_ERR;
+}
+
+esmacat_err esmacat_epos4::set_controlword_bit(int bit, bool set){
+  output_controlword_bits = std::bitset<16>(output_controlword);
+  output_controlword_bits.set(bit,set);
+  output_controlword = output_controlword_bits.to_ulong();
   return NO_ERR;
 }
 
@@ -130,7 +137,7 @@ esmacat_err esmacat_epos4::start_motor(){
 }
 
 esmacat_err esmacat_epos4::set_elapsed_time(double elapsed_time_ms){
-  elapsed_time = elapsed_time_ms-old_elapsed_time-esmacat_app_one_cycle_time_sec;
+  elapsed_time = elapsed_time_ms-old_elapsed_time-esmacat_app_one_cycle_time_ms;
   old_elapsed_time = elapsed_time_ms;
   return NO_ERR;
 }
@@ -205,7 +212,7 @@ void esmacat_epos4::ecat_data_process(uint8_t* ec_slave_outputs,int oloop,uint8_
 
   // RxPDO CST
 
-  output_variable[7] = 0;
+    output_variable[7] = 0;
 	output_variable[8] = 0;
 	output_variable[9] = 0;
 	output_variable[10] = 0;
